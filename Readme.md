@@ -156,7 +156,8 @@ Saat kita melakukan proses Create, Indexing, Dellete yang terjadi pada elasticse
 jadi tahap pertama itu elasticsearch akan melakukan routing setelah itu maka elasticsearch akan mengetahui data tersebut disimpan di partisi yang mana, setelah elasticsearch mendapatkan data tersebut pada partisinya maka elasticsearch akan melakukan operasi(Create, Indexing, Delete) pada shards/partisi primary, setelah berhasil melakukan operasi tersebut maka request tersebut akan dipropagasikan secara palarel kepada replika-replika nya yang berada di node-node pada cluster elasticsearch.
 
 # Retriving Documents
-Untuk proses select atau retrive atau get documents(Data) itu sedikit berbeda dengan proses Create, Indexing dan Delete ---
+Untuk proses select atau retrive atau get documents(Data) itu sedikit berbeda dengan proses Create, Indexing dan Delete.  
+
 untuk proses retrive itu sebagai berikut :  
 
 ![retriving_documents](https://github.com/alliano/elasticsearch/blob/master/images/retriving_docs.jpg)  
@@ -186,27 +187,37 @@ proses searchig pada elasticsearch ini dibagi menjadi 2 fase :
 * Query phase  
 ![Query_pahse](https://github.com/alliano/elasticsearch/blob/master/images/Query_pahase.jpg)  
 
-Misalnya request masuk dari node-3, setelah itu elaticsearch akan mencari data tersebut kesemua shards/partisi, pada proses ini elasticsearch tidak memprioritaskan pencarian pada shards/partisi primary melainkan elasticsearch akan mencari pada semua partisi(Replica, Primary) secara Palarel dan random. ---
-Setelah itu elasticsearch akan mengembalikan id document yang didapat pada shards/partisi pada saat proses searching dan mengembalikan id tersebut ke node-3 ---
+Misalnya request masuk dari node-3, setelah itu elaticsearch akan mencari data tersebut kesemua shards/partisi, pada proses ini elasticsearch tidak memprioritaskan pencarian pada shards/partisi primary melainkan elasticsearch akan mencari pada semua partisi(Replica, Primary) secara Palarel dan random.  
+
+Setelah itu elasticsearch akan mengembalikan id document yang didapat pada shards/partisi pada saat proses searching dan mengembalikan id tersebut ke node-3  
+
 Perlu diingat jikalau request tersebut itu masuk dari node-3, maka elasticsearch tidak akan melakukan searching pada node tersebut melainkan elasticsearch akan mempropagasi requst tersebut kepada node-node lain, misalnya pada kasus ini adalah node-2 dan node-3
 * Fetch Phase
 ![Fetch_phase](https://github.com/alliano/elasticsearch/blob/master/images/Query_pahase.jpg)
 Untuk alur dari Fetch phase ini sama denga alur Query pahase. Setelah selesai melakukan Query phase maka node-3 akan mendapatkan id yang match dengan key pencarian, seteh itu sebelum elasticsearch masuk dalam fetch phase, elasticsearch akan mensorting id tersebut, misalnya elasticsearch mensorting 100 id documents pertama. Setelah itu proses fetching dilakukan oleh elaticsearch secara palarel dan belance ke shards/partisi, setelah itu hasil pencarian akan dikembalikan ke node-3 dan node-3 akan mengirimkan hasil pencarian tersebut melalui http response.
 
 # Deep pagination
-jikalau kita memiliki 5 shards dalam cluster dan kita melakukan proses searching dengan limit hasil 100 data, maka tiap shard/partisi akan mengemabalikan 100 data, artinya kita akan mendapatkan 500 data yang harus diproses. ---
-jikalau terlalu banyak data yaang harus diproses maka proses shorting sebelum melakukan fetching biasanya akan membutuhkan resource badwith dan CPU yang besar. ---
-Maka dari itu unutk melakukan paging yang sagat dalam tidak disarankan. ---
+jikalau kita memiliki 5 shards dalam cluster dan kita melakukan proses searching dengan limit hasil 100 data, maka tiap shard/partisi akan mengemabalikan 100 data, artinya kita akan mendapatkan 500 data yang harus diproses.  
+
+jikalau terlalu banyak data yaang harus diproses maka proses shorting sebelum melakukan fetching biasanya akan membutuhkan resource badwith dan CPU yang besar.  
+
+Maka dari itu unutk melakukan paging yang sagat dalam tidak disarankan.  
+
 Jikalau kita igin mengambil semua data document yang ada pada elasticsearch maka kita jangan menggunakan searching melakinkan menggunakan fitur yang namanya Scroll. Scroll ini adalah teknik scaning semua data yang ada pada elasticsearch cluster.
 
 # Installation
 Untuk proses instalasinya, tahap pertama kita bisa download elasticsearch dari link berikut ini :
-[elasticsearch_download](https://www.elastic.co/downloads/elasticsearch) ---
-dan jagan lupa disesuaikan dengan versi device temn2(Windows, Mac, Linux) ---
+[elasticsearch_download](https://www.elastic.co/downloads/elasticsearch)  
+
+dan jagan lupa disesuaikan dengan versi device temn2(Windows, Mac, Linux)  
+
 Setelah proses download selesai, tehap selanjutnya kita extrac file elasticsearch nya, setelh selesai extract kita akan mendapatkan file sebagai berikut :
-![base_file_elasticsearc](https://github.com/alliano/elasticsearch/blob/master/images/base_file_elasticsearch.png) ---
-folder bin merupakan folder yang berisi command-command yang digunakan untuk menjalankan elasticsearchnya ---
-folder config merupakan folder yang berisi konfigurasi elasticsearch dan konfigurasi JVM(Java Virtual Machine) --
+![base_file_elasticsearc](https://github.com/alliano/elasticsearch/blob/master/images/base_file_elasticsearch.png)  
+
+folder bin merupakan folder yang berisi command-command yang digunakan untuk menjalankan elasticsearchnya  
+
+folder config merupakan folder yang berisi konfigurasi elasticsearch dan konfigurasi JVM(Java Virtual Machine)  
+
 kita akan fokus kepada kedua folder tersebut.
 
 # Configuration Elasticsearch
