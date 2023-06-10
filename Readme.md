@@ -168,7 +168,7 @@ Jadi proses pertama elasticsearch akan melakukan routing terlebih dahulu, setela
 
 # Updating Documents
 Untuk proses Update ini mirip seperti dengan proses Create, indexing, Delete. bisa dilihat pada diaram berikut ini :
-![update_document]()
+![update_document](https://github.com/alliano/elasticsearch/blob/master/images/update_document.png)
 Jadi pertama yang dilakukan yaitu routing terlebih dahulu unutuk mengetahui data tersebut berada pada shared yang mana. di contoh tersebut misalnya setelah dilakukan routing ternyata datanya berada pada shard ke 0, maka elasticsearch akan melakukan proses update nya kepada shard 0 tersebut, setelah proses update selesai maka request tersebut akan di propagasi ke repika-replika nya palarel yang berada pada node-node didalam cluster elasticsearch.
 
 # Immutable Document
