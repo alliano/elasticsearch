@@ -94,9 +94,11 @@ Didalam satu cluster semua node elasticsearch akan saling terhubung dan bekerja 
 Tiap node elasticsearch itu berjalan dengan konsep masterless. Artinya dalam cluster elasticsearch itu tidak ada master nya atau tidak ada database utama nya jadi misal kita melakukan operasi penyimpanan pada node1 bisa saja datanya di simpan di node 3 dan sebagainya, atau saat kita query di node3 misalnya dan data yang kita cari itu adanya di node 1 maka node3 akan meneruskan query nya ke node1 dan menegembalikan data yang dicari.
 
 # Database
-Diadalam elasticsearch itu tidak ada yang namanya Database namun yang ada hanyalah Index. ---
+Diadalam elasticsearch itu tidak ada yang namanya Database namun yang ada hanyalah Index.  
+
 Index ini dapat kita analogikan sebagai Tabel di dalam database.
-Lantas gimna jika kita ingin menggunkan elasticsearch untuk menyimpan beberapa database ? ---
+Lantas gimna jika kita ingin menggunkan elasticsearch untuk menyimpan beberapa database ?  
+
 untuk menatasi hal tersebut kita bisa menggunakan prefix saat penamaan Index nya, misalnya :
  * payment_user
 kata yang didepanya sebagai prefix untuk menandai bahwa Index payment_user itu milik database payment.
@@ -448,8 +450,9 @@ cluster.initial_master_nodes: ["node-1", "node-2", "node-3"]
 Stelah selesai mengkonfigurasi cluster nya, kita bisa jalankan elasticsearch nya.
 
 # Create Index
-Langkah pertama saat kita akan menggunakan elasticsearch yaitu membuat Index. ---
-Index disini digunakan sebagai media penyimpanan data. Jikalau kita asumsikan sebagai RDBMS index ini seperti tabel. Untuk membuat index kita membutuhkan HTTP Client(Postman atau Insomnia dan applikasi sejenisnya). ---
+Langkah pertama saat kita akan menggunakan elasticsearch yaitu membuat Index.  
+Index disini digunakan sebagai media penyimpanan data. Jikalau kita asumsikan sebagai RDBMS index ini seperti tabel. Untuk membuat index kita membutuhkan HTTP Client(Postman atau Insomnia dan applikasi sejenisnya).  
+
 cara untuk membuat index yaitu dengan mengirim requst sebagai berikut :
 ``` Http
 http://{host}:{port}/{nama_Index}
@@ -470,7 +473,8 @@ Referensi :[create index requirement
 ](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-create-index.html#indices-create-api-path-params)
 
 # Index Setings
-Saat kita membuat index kadang kita ingin menetukan berapa replika dan shard/partisi index tersebut. ---
+Saat kita membuat index kadang kita ingin menetukan berapa replika dan shard/partisi index tersebut.  
+
 Untuk menseting hal tersebut, kita bisa melakukanya dengan cara mengirim requst body berupa json sebagai berikut : 
 ``` json
 PUT /users
@@ -484,7 +488,7 @@ PUT /users
 }
 ```
 * peroperti number_of_shards merupakan properti untuk menentukan berapa partisi yang digunakan untuk Index tersebut.
-* number_of_replicas merupakan properti untuk menentukan berapa replika yang dimiliki index tersebut. ---
+* number_of_replicas merupakan properti untuk menentukan berapa replika yang dimiliki index tersebut.  
 
 example :  
 
