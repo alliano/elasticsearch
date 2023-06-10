@@ -3,13 +3,13 @@ Elasticsearch merupakan database khusus untuk melakukan pencarian. yang membedak
 
 # Sejarah Elasticsearch
 Munculnya elasticsearch itu diawali dengan project yang bernama Apache Lucene. Apache lucene ini dibuat kusus untuk pencarian data dengan performa yang tinggi dan Apache lucene ini merupakan search enggine yang sangant populer. Sayangnya project Apache Lucene ini berbentuk Liberary Java. Jika kita ingin menggunakanya maka kita harus meng embend Apache Lucene ini kedalam project java kita, jadi yang bisa menggunakan Apache Lucene ini hanyalah applikasi yang dibuat dengan bahasa pemograman Java.
-![Apache Lucene](https://../images/Apache_lucene.png)
+![Apache Lucene](https://github.com/alliano/elasticsearch/blob/master/images/Apache_lucene.png)
 
 Penggunakan Apache Lucene ini sangatlah kompleks dan lumayan rumit, maka dari itu muculah project yang bernama Compass Project yang mana tujuanya untuk mempermudah penggunakan Apache Lucene. Compass project ini sebenarnya Liberary java juga namum pendekatanya lebih ke ORM(Object Relational Mapping) contohnya seperti Hibbernate kalo di java atau kalo di Php itu Eloquent atau Gorm kalo di bahasa pemograman Golang. Lagi-lagi applikasi selain java tidak dapat menggunakanya karna Compass project ini merupakan ORM nya Apache Lucene dan cara penggunaanya harus di embed kedalam project java. Dan pada akhirnya founder dari Compass project mengakhiri project nya(Compas project) dan membuat project baru yang bernama Elasticsearch.
-![Compass project](https://../images/Compass_project.png)
+![Compass project](https://github.com/alliano/elasticsearch/blob/master/images/Compass_project.png)
 
 Elasticsearch ini berbeda dengan project-project sebelumnya namun didalam elasticsearch tetap mengembed Apache Lucene(tidak membuat search enggine sendiri) yang membedakan project Elasticsearch dengan project-project lainya yaitu pada project Elasticsearch dibuatkan suebuah system kusus unutuk Database. jadi Berhubung elasticsearch ini system nya adalah database jadi semua applikasi yang dibuat menggunakan bahasa selain java itu bisa menggunakan Elasticsearch, dan juga penggunaan elasticsearch itu menggunakan protokol HTTP.
-![Elasticsearch](https://../images/elasticsearch.png)
+![Elasticsearch](https://github.com/alliano/elasticsearch/blob/master/images/elasticsearch.png)
 
 # Alternatif lain selain Elasticsearch
 jika kita tidak inigin menggunakan elasticsearch ada alternativ lain yang bisa digunakan yaitu :
@@ -19,7 +19,7 @@ Namun pada seri kali ini kita akan fokus membahas tentang Elasticsearch.
 
 # Kapan Butuh Elasticsearch
 Pada umumnya Arsitektur Applikasi itu sebagai berikut..
-![arsitektur applikasi](https://../images/Application.png)
+![arsitektur applikasi](https://github.com/alliano/elasticsearch/blob/master/images/Application.png)
 dan pada umumnya Applikasi itu biasanya ada fitur untuk pencarian data. Dan biasanya jikalau kita ingin mencari data berdasarkan kolom nama misalnya. Kita bisa menambahkan Index pada kolom nama unutuk mempercepat proses query nya. Dan kita bisa melakukan query sebagai berikut ini :
 ```SQL
  SELECT * FROM users AS u WHERE u.name = 'Allia';
@@ -37,9 +37,9 @@ tentusaja ini tidak akan mendapatkan data yang diinginkan.
 
 ## Agregate
 Misalnya kita ingin menampilkan data produk dan ingin mengagregate beberapa fieldnya contohnya kita ingin mengagregate berdasarkan Lokasi
-![Lokasi](https://../images/Lokasi.png)
+![Lokasi](https://github.com/alliano/elasticsearch/blob/master/images/Lokasi.png)
 Pengiriman dan Promo
-![](https://../images/Compass_project.png)
+![Promo](https://github.com/alliano/elasticsearch/blob/master/images/Pengiriman_promo.png)
 Jikalu kita menggunakan database bisa(postgreSQL, Mysql, mongoDb, dan sebagainya) sebenarnya lumayan gampang kita tinggal menggunakan fitur group by saja. namun bagaimana jika kita ingin mengagregate dalam 5 kategori tentusaja yang akan kita lakukan pertama yaitu mengquery datanya lalu mengrouping sebanyak 5x, jadi totalnya 6 proses eksekusi, dan pastinya akan lambat.
 
 ## Kompleks search Data
@@ -50,24 +50,24 @@ Setelah kita menggunakan elasticsearch maka arsitektur dari applikasi yang kita 
   * Database untuk penyimpanan(Mysql, PostgreSQL, atau mongodb dan sebagainya)
   * Database untuk pencarian(Elasticsearch)
 Gambaranya dapat dilihat sebagai berikut :
-![app arc](https://../images/Application_architecture.png)
+![app arc](https://github.com/alliano/elasticsearch/blob/master/images/Application_architecture.png)
 
 # Arsitektur penggunaan Elasticsearch
 Saat kita menjalankan elasticsearch, itu bisa kita sebut kita menajalankan node elasticsearch. Pada real case(di production) kita tidak akan menjalalankan 1 node elasticsearch, biasanya kita akan menjalankan lebih dari 1 atau 3 node elasticsearch, perlu diingat saat kita menjalankan node elasticsearch direkomendasikan jumlah node nya itu ganjil, karena unutk mengatisipasi jikalau terjadi splitbranch. ---
 Saat semua node kita terkoneksi maka gambaranya sebagai berukut :
-![node_connected](https://../images/Nodes_connected.png)
+![node_connected](https://github.com/alliano/elasticsearch/blob/master/images/Nodes_connected.png)
 Saat semua node terkoneksi maka kekonsistenan data akan selalu terjaga(terhindar dari redundancy). Namun saat hubungan network antar node kita terputus(terjadi split branch)
-![node_notconnect](https://../images/node_notConected.png)
+![node_notconnect](https://github.com/alliano/elasticsearch/blob/master/images/node_notConected.png)
 maka node elasticsearch yang akan digunakan adalah node yang paling banyak terhubung dengan node lain. dalam gambar diatas adalh node3, node4, dan node5. ---
 node1 dan node2 tidak akan digunakan samapi network kemabali terhubung(split branch berakhir). ---
 
 jikalu kita menjalankan node elasticsearch dengan jumlah genap maka yang akan terjadi jikalau terjadi split branch dan jumlah kedua sisi node itu sama 
-![](https://../images/node_balance.png)
+![node belance](https://github.com/alliano/elasticsearch/blob/master/images/node_balance.png)
 maka elasticsearch akan menjalankan kedua sisi node yang terputus. karena terjadi split branch dan kedua sisi node berjalan maka yang akan terjadi adalah data tidak lagi konsisten(redundancy) dan saat node nya terhubung kembali maka akan terjadi ERROR karena datanya tidak konsisten. maka dari itu disarankan saat kita menjalankan node elasticsearch harus ganjil.
 
 # Elasticsearch cluster
 Saat kita menjalankan beberapa node dan beberapa node tersebut saling terhubung maka kita sebut dengan cluster(kumpulan dari bebrapa node)
-![cluster_elastricsearch](https://../images/elasticsearch_cluster.png)
+![cluster_elastricsearch](https://github.com/alliano/elasticsearch/blob/master/images/elasticsearch_cluster.png)
 Didalam satu cluster semua node elasticsearch akan saling terhubung dan bekerja sama.
 
 ## Masterless
@@ -83,7 +83,7 @@ kata yang didepanya sebagai prefix untuk menandai bahwa Index payment_user itu m
 
 # Index
 Saat kita membuat index pada elasticsearch, index tersebut akan disimpan kedalam Lucene document. jadi saat kita menambahakan data pada index maka data tersebut akan disimpan didalam Lucene document. 
-![index](https://../images/index.png)
+![index](https://github.com/alliano/elasticsearch/blob/master/images/index.png)
 Didalam Lucene document itu sebenarnya isinya cuman atribut Key dan value, contohnya :
 | Atributes   | vaue              |
 |*************|*******************|
@@ -94,10 +94,10 @@ Didalam Lucene document itu sebenarnya isinya cuman atribut Key dan value, conto
 
 # Sharding
 Sharding itu adalah memotong Index yang kita buat menjadi bebrapa partisi/bagian yang di distribusikan atau di sebarkan ke semua node yang ada didlam culuster elasticsearch. Secara default saat kita membuat Index, elasticsearch akan membagi Index tersebut menjadi 5 partisi.
-![partition](https://.../../images/partition.jpg)
+![partition](https://github.com/alliano/elasticsearch/blob/master/images/partition.jpg)
 Namun jikalau kita ingin mengubah setingan default nya, kita bisa mengaturnya saat kita membuat Index.
 Seperti yang terlah dikatakan diatas potongan dari index akan di distribusikan ke beberapa node yang ada didalam elasticsearch cluster.
-![node_elastic](https://../images/shards_nodes.jpg)
+![node_elastic](https://github.com/alliano/elasticsearch/blob/master/images/shards_nodes.jpg)
 Pendistribusian patisi ke node-node itu dilakukan secara otomatis oleh elasticsearch, dan penempatan partisinya random.
 
 # Keuntungan Sharding
@@ -105,9 +105,9 @@ Keuntungan dari sharding(memecah index menjadi beberapa bagian) dapat membuat no
 
 # Replika
 Repikasi merupakan teknik unutk menduplikasi index pada elasticsearch. By default saat kita membuat index, elasticsearch juga akan membuat 1 replika unutuk index tersebut. Dan data replikasi tersebut tidak akan di simpan pada node yang sama, misalnya kita membuat index dan index tersebut disimpan pada node1 maka replikanya bisa saja ada pada node2 atau node3 dan seterusnya.
-![image](https://../images/replica.jpg)
+![image](https://github.com/alliano/elasticsearch/blob/master/images/replica.jpg)
 Namun saat kita menambahkan node baru dalam cluster kita nanti, maka elasticsearch akan melakukan rebelance jumlah replika dan partisinya, maksudnya replika dan primary akan di ditribusikan pada node yang baru.
-![replica_rebelance](https://../images/replica_rebelance.jpg)
+![replica_rebelance](https://github.com/alliano/elasticsearch/blob/master/images/replica_rebelance.jpg)
 dengan begitu data akan selalu available walapun nanti terjadi salah sattu node mati.
 
 # Document Routing
@@ -120,13 +120,13 @@ routing tersebut berlaku untuk menyimpan data ataupun mengambil data.
 
 # Distribusi Documents
 Saat kita melakukan proses Create, Indexing, Dellete yang terjadi pada elasticsearch itu sebagai berikut :
-![distributed_document](https://../images/dictribuded_documents.jpg)
+![distributed_document](https://github.com/alliano/elasticsearch/blob/master/images/dictribuded_documents.jpg)
 jadi tahap pertama itu elasticsearch akan melakukan routing setelah itu maka elasticsearch akan mengetahui data tersebut disimpan di partisi yang mana, setelah elasticsearch mendapatkan data tersebut pada partisinya maka elasticsearch akan melakukan operasi(Create, Indexing, Delete) pada shards/partisi primary, setelah berhasil melakukan operasi tersebut maka request tersebut akan dipropagasikan secara palarel kepada replika-replika nya yang berada di node-node pada cluster elasticsearch.
 
 # Retriving Documents
 Untuk proses select atau retrive atau get documents(Data) itu sedikit berbeda dengan proses Create, Indexing dan Delete ---
 untuk proses retrive itu sebagai berikut :
-![retriving_documents](https://../images/retriving_docs.jpg)
+![retriving_documents](https://github.com/alliano/elasticsearch/blob/master/images/retriving_docs.jpg)
 Jadi proses pertama elasticsearch akan melakukan routing terlebih dahulu, setela proses routig selesai maka elasticsearch mengetahui document tersebut berada pada partisi yang mana, pada saat mengambil document nya elasticsearch akan mengambil document tersebut secara random dari partisi primary atau replikasi nya, setelah berhasil mengambil maka data tersebut akan dikemabalikan ke node yang menerima request tersebut dan node tersebut akan memberikan document tersebut melalui response.
 
 # Updating Documents
@@ -166,10 +166,10 @@ Jikalau kita igin mengambil semua data document yang ada pada elasticsearch maka
 
 # Installation
 Untuk proses instalasinya, tahap pertama kita bisa download elasticsearch dari link berikut ini :
-![elasticsearch_download](https://www.elastic.co/downloads/elasticsearch) ---
+[elasticsearch_download](https://www.elastic.co/downloads/elasticsearch) ---
 dan jagan lupa disesuaikan dengan versi device temn2(Windows, Mac, Linux) ---
 Setelah proses download selesai, tehap selanjutnya kita extrac file elasticsearch nya, setelh selesai extract kita akan mendapatkan file sebagai berikut :
-![base_file_elasticsearc](https://../images/base_file_elasticsearch.png) ---
+![base_file_elasticsearc](https://github.com/alliano/elasticsearch/blob/master/images/base_file_elasticsearch.png) ---
 folder bin merupakan folder yang berisi command-command yang digunakan untuk menjalankan elasticsearchnya ---
 folder config merupakan folder yang berisi konfigurasi elasticsearch dan konfigurasi JVM(Java Virtual Machine) --
 kita akan fokus kepada kedua folder tersebut.
@@ -409,7 +409,7 @@ cara untuk membuat index yaitu dengan mengirim requst sebagai berikut :
 http://{host}:{port}/{nama_Index}
 ```
 misal nya jikalau kita ingin membuat index users : http://localhost:9201/users
-![create_index](https://../images/create-index.png)
+![create_index](https://github.com/alliano/elasticsearch/blob/master/images/create-index.png)
 
 # Index name Limitations
 Ada beberapa batasan saat kita membuat nama index, yaitu :
@@ -439,7 +439,7 @@ PUT /users
 * number_of_replicas merupakan properti untuk menentukan berapa replika yang dimiliki index tersebut. ---
 
 example :
-![create_index_with_setings](https://../images/create_index_with_settings.png)
+![create_index_with_setings](https://github.com/alliano/elasticsearch/blob/master/images/create_index_with_settings.png)
 Untuk megetahui lebih detail index tersebut, biga kirimkan requst dengan menggunakan Http method get dan diikuti dengan nama index nya, contoh :
 ``` bash
 http://localhost:9201/users
